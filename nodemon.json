@@ -1,0 +1,7 @@
+{
+    "env": {
+        "MONGO_USER": "migratebhub-user",
+        "MONGO_PASSWORD": "EXUKAOntwz8bZ2md",
+        "MONGO_DB": "migrationhub"
+    }
+}
