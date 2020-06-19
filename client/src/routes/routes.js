@@ -4,6 +4,7 @@ import Login from "../components/Auth/Login";
 import Agent from "../components/Agent/index";
 import preassessment from "../components/preassessment/index";
 import Dashboard from "../components/Dashboard/index";
+import SignupStepTow from '../components/Auth/SignupStepTow'
 
 const routes = [
   {
@@ -41,6 +42,12 @@ const routes = [
     path: "/dashboard",
     exact: true,
     component: Dashboard,
+  },
+  {
+    title: "SignupStepTow",
+    path: "/signupsteptwo",
+    exact: true,
+    component: SignupStepTow,
   },
 ];
 

@@ -2,6 +2,8 @@ import React from "react";
 import { Button } from "reactstrap";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import styled from "styled-components";
+import axios from 'axios';
+import { withRouter } from 'react-router-dom'
 
 const BtnWrapper = styled.div`
   display: flex;
@@ -13,7 +15,7 @@ const BtnWrapper = styled.div`
   }
 `;
 
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { email: false };
@@ -21,15 +23,46 @@ export default class LoginForm extends React.Component {
 
   handleValidSubmit = (event, values) => {
     this.setState({ email: values.email });
-    console.log(`Login Successful`);
+    // console.log(`Login Successful >> `, values);
+
+    const Obj = {
+      query: `
+      mutation{
+        registerUser(register : {firstname : "${values.Firstname}" , lastname : "${values.Lastname}", email : "${values.email}", password : "${values.password}"}){
+          _id
+          email
+          firstname
+          lastname
+      
+        }
+      }
+      `
+    }
+    axios({
+      method: 'post',
+      url: process.env.REACT_APP_BASE_URL,
+      data: JSON.stringify(Obj),
+      headers : {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      console.log('Res >> ', res);
+      if (res.status === 200) {
+        this.props.history.push(`/signupsteptwo`)
+        }
+    });
+
   };
 
   handleInvalidSubmit = (event, errors, values) => {
     this.setState({ email: values.email, error: true });
     console.log(`Login failed`);
+  
+
   };
 
   render() {
+    console.log('df',process.env.REACT_APP_BASE_URL);
     return (
       <AvForm
         onValidSubmit={this.handleValidSubmit}
@@ -93,3 +126,5 @@ export default class LoginForm extends React.Component {
     );
   }
 }
+
+export default withRouter(LoginForm)
