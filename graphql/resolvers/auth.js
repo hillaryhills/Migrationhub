@@ -16,6 +16,8 @@ module.exports = {
   },
 
   registerUser: (args) => {
+    console.log(args);
+    
     return User.findOne({ email: args.register.email })
       .then((user) => {
         if (user) {
@@ -24,6 +26,7 @@ module.exports = {
         return bcrypt.hash(args.register.password, 12);
       })
       .then((hashedPassword) => {
+        console.log(hashedPassword);
         const user = new User({
           firstname: args.register.firstname,
           lastname: args.register.lastname,
