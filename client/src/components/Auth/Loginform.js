@@ -3,6 +3,11 @@ import { Button } from "reactstrap";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import styled from "styled-components";
 import axios from 'axios'
+import { AUTH_TOKEN } from '../../constants';
+import { withRouter } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+
+
 
 const BtnWrapper = styled.div`
   display: flex;
@@ -14,7 +19,7 @@ const BtnWrapper = styled.div`
   }
 `;
 
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { email: false };
@@ -24,7 +29,7 @@ export default class LoginForm extends React.Component {
     this.setState({ email: values.email });
     // console.log(`Login Successful`);
     // console.log('event >>> ', event, 'value >>> ', values.password);
-
+    debugger
     const Obj = {
       query: `
       query{
@@ -41,14 +46,18 @@ export default class LoginForm extends React.Component {
       method: 'post',
       url: process.env.REACT_APP_BASE_URL,
       data: JSON.stringify(Obj),
-      headers : {
+      headers: {
         'Content-Type': 'application/json'
       }
     }).then((res) => {
+      debugger
+      localStorage.setItem(AUTH_TOKEN, res.data.data.login.token)
+      toast.success("Login successfully");
+      this.props.history.push(`/dashboard`);
       console.log('Res >> ', res);
-      
+
     });
-    
+
   };
 
   handleInvalidSubmit = (event, errors, values) => {
@@ -104,3 +113,4 @@ export default class LoginForm extends React.Component {
     );
   }
 }
+export default withRouter(LoginForm);

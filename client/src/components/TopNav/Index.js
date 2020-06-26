@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import {
   Collapse,
@@ -9,7 +10,8 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
-
+import { withRouter } from 'react-router'
+import { AUTH_TOKEN } from '../../constants';
 const TopNavigation = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,6 +34,8 @@ const NavWrapper = styled.div`
 const Index = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const authToken = localStorage.getItem(AUTH_TOKEN);
+  const history = useHistory();
 
   return (
     <TopNavigation>
@@ -50,14 +54,26 @@ const Index = (props) => {
               <NavItem>
                 <NavLink href="#">1 8468 595 9050</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink href="/login">Login</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/signin">
-                  <SignupBotton>Sign up</SignupBotton>
-                </NavLink>
-              </NavItem>
+              {authToken ? (
+                <NavItem>
+                  <NavLink href="/" className="ml1 pointer black"
+                    onClick={() => {
+                      localStorage.removeItem(AUTH_TOKEN)
+                      history.push('/');
+                    }}>logout</NavLink>
+                </NavItem>
+              ) : (
+                  <>
+                    <NavItem>
+                      <NavLink href="/login">Login</NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink href="/signin">
+                        <SignupBotton>Sign up</SignupBotton>
+                      </NavLink>
+                    </NavItem>
+                  </>
+                )}
             </NavWrapper>
           </Nav>
         </Collapse>

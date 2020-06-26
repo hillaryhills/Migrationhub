@@ -4,6 +4,8 @@ import { AvForm, AvField } from "availity-reactstrap-validation";
 import styled from "styled-components";
 import axios from 'axios';
 import { withRouter } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BtnWrapper = styled.div`
   display: flex;
@@ -42,27 +44,31 @@ class LoginForm extends React.Component {
       method: 'post',
       url: process.env.REACT_APP_BASE_URL,
       data: JSON.stringify(Obj),
-      headers : {
+      headers: {
         'Content-Type': 'application/json'
       }
     }).then((res) => {
+      debugger
       console.log('Res >> ', res);
-      if (res.status === 200) {
+      if (!res.data.errors) {
+        toast.success("User Successfully Registered");
         this.props.history.push(`/signupsteptwo`)
-        }
+      } else {
+        toast.error(res.data.errors[0].message);
+      }
     });
 
   };
-
+  
   handleInvalidSubmit = (event, errors, values) => {
     this.setState({ email: values.email, error: true });
     console.log(`Login failed`);
-  
+
 
   };
 
   render() {
-    console.log('df',process.env.REACT_APP_BASE_URL);
+    console.log('df', process.env.REACT_APP_BASE_URL);
     return (
       <AvForm
         onValidSubmit={this.handleValidSubmit}
@@ -117,12 +123,20 @@ class LoginForm extends React.Component {
             },
           }}
         />
+        <AvField
+          name="Confirm password"
+          label="Confirm Password"
+          type="password"
+          validate={{match:{value:'password'}}} 
+        />
         <BtnWrapper>
           <Button className="LoginBtn" id="submit">
             Submit
           </Button>
         </BtnWrapper>
+        <ToastContainer />
       </AvForm>
+
     );
   }
 }

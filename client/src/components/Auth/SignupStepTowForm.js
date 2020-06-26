@@ -162,7 +162,7 @@ class SignupStepTowForm extends Component {
 
         <BtnWrapper>
           <Button className="LoginBtn" id="submit">
-            Submit
+            Continue
           </Button>
         </BtnWrapper>
       </AvForm>
