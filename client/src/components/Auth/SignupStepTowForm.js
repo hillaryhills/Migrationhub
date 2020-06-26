@@ -34,7 +34,9 @@ class SignupStepTowForm extends Component {
       frmFlag2: true,
     };
   }
+
   handleValidSubmit = (event, values) => {
+    debugger
     this.setState({ email: values.email });
     // console.log(`Login Successful >> `, values);
     const Obj = {
@@ -56,6 +58,7 @@ class SignupStepTowForm extends Component {
         "Content-Type": "application/json",
       },
     }).then((res) => {
+      debugger
       if (res.status === 200) {
         console.log(res.status);
         this.props.history.push(`/dashboard`);
