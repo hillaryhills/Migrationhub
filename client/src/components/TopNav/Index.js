@@ -59,7 +59,7 @@ const Index = (props) => {
                   <NavLink href="/" className="ml1 pointer black"
                     onClick={() => {
                       localStorage.removeItem(AUTH_TOKEN)
-                      history.push('/');
+                      history.push('/Home');
                     }}>logout</NavLink>
                 </NavItem>
               ) : (

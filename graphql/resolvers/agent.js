@@ -14,13 +14,15 @@ module.exports = {
       });
   },
   registerAgent: (args) => {
+    debugger
+    console.log(args)
     const agent = new Agent({
       business_name: args.agentRegister.business_name,
       business_number: args.agentRegister.business_number,
       marn: args.agentRegister.marn,
       rating: args.agentRegister.rating,
       status: args.agentRegister.status,
-      getuser: "5e9305a58ce9d94d0a277d02",
+      getuser:  args.agentRegister.getuser,
     });
     return agent
       .save()

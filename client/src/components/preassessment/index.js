@@ -12,7 +12,6 @@ const FormWrapper = styled.div`
   display: flex;
   margin-top: 5em;
   padding: 50px;
-  max-width: 75%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
   input {
@@ -42,11 +41,20 @@ const FieldItems = styled.div`
 `;
 
 export class MigrationPreAssessment extends Component {
+  constructor(props) {
+    super(props);
+    // this.state = { email: false };
+  }
+  handleSubmit=(e)=>{
+    debugger
+    this.props.history.push(`/agent`);
+
+  }
   render() {
     return (
       <>
         <Grid>
-          <form id="migrationform" method="post">
+          <form id="migrationform" method="post" onSubmit={this.handleSubmit}>
             <FormWrapper>
               <Row className="tetetetet">
                 <Col xs={12} md={6}>

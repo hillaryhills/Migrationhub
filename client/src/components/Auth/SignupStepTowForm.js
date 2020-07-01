@@ -15,6 +15,7 @@ import styled from "styled-components";
 import "./SignupStepTowForm.css";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import { AUTH_TOKEN, USER_ID } from '../../constants';
 
 const BtnWrapper = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ const BtnWrapper = styled.div`
     border: none;
   }
 `;
-
+const user_Id = localStorage.getItem(USER_ID);
 class SignupStepTowForm extends Component {
   constructor(props) {
     super(props);
@@ -37,12 +38,13 @@ class SignupStepTowForm extends Component {
 
   handleValidSubmit = (event, values) => {
     debugger
+    console.log(user_Id);
     this.setState({ email: values.email });
     // console.log(`Login Successful >> `, values);
     const Obj = {
       query: `
         mutation{
-            registerAgent(agentRegister : {business_name : "${values.businessname}" ,business_number : ${values.businessnumber},marn : ${values.marnnumber}}){
+          registerAgent(agentRegister : {business_name : "${values.businessname}" ,business_number : ${values.businessnumber},marn : ${values.marnnumber},rating : ${1},status:"unverified",getuser: "${user_Id}"}){
               business_name
               business_number
               marn
