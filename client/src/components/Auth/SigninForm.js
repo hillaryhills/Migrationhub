@@ -6,6 +6,8 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AUTH_TOKEN, USER_ID } from '../../constants';
+
 
 const BtnWrapper = styled.div`
   display: flex;
@@ -51,15 +53,55 @@ class LoginForm extends React.Component {
       debugger
       console.log('Res >> ', res);
       if (!res.data.errors) {
-        toast.success("User Successfully Registered");
-        this.props.history.push(`/signupsteptwo`)
+        this.loginAfterSignin(values);
       } else {
         toast.error(res.data.errors[0].message);
       }
     });
 
   };
-  
+
+
+  loginAfterSignin = (values) => {
+    debugger
+    const Obj = {
+      query: `
+      query{
+        login(email :"${values.email}", password : "${values.password}"){
+          userId
+          token
+          tokenExpiration
+        }
+      }
+      `
+    }
+
+    axios({
+      method: 'post',
+      url: process.env.REACT_APP_BASE_URL,
+      data: JSON.stringify(Obj),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      debugger
+      localStorage.setItem(AUTH_TOKEN, res.data.data.login.token)
+      localStorage.setItem(USER_ID, res.data.data.login.userId)
+      toast.success("User Successfully Registered");
+      this.props.history.push(`/signupsteptwo`)
+
+    });
+
+  };
+
+
+
+
+
+
+
+
+
   handleInvalidSubmit = (event, errors, values) => {
     this.setState({ email: values.email, error: true });
     console.log(`Login failed`);
@@ -127,7 +169,7 @@ class LoginForm extends React.Component {
           name="Confirm password"
           label="Confirm Password"
           type="password"
-          validate={{match:{value:'password'}}} 
+          validate={{ match: { value: 'password' } }}
         />
         <BtnWrapper>
           <Button className="LoginBtn" id="submit">

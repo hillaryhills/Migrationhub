@@ -16,7 +16,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { Dashboard, BusinessInfo, Projects } from "./Components";
+import { Engagement } from "./Components";
 
 const ProjectIcon = <FontAwesomeIcon icon={faTasks} />;
 const BusinessIcon = <FontAwesomeIcon icon={faCity} />;
@@ -36,6 +36,22 @@ const UserID = styled.div`
   justify-content: center;
   margin-top: 1em;
 `;
+
+const Fullname = styled.div`
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    color: #ACACAC;
+`;
+
+const Username = styled.div`
+        font-weight: bold;
+        font-size: 20px;        
+        font-size: 20px;
+        text-align: center;
+        color: #000000;
+`;
+
 
 const ImgWrapper = styled.div`
   display: flex;
@@ -74,26 +90,14 @@ const NavWrapper = styled.a`
   }
 `;
 
-const UserDashBoard = (props) => {
+const CustomerDashBoard = (props) => {
   const menuItems = [
     {
       index: "1",
-      name: "Overview",
-      component: Dashboard,
+      name: "Engagement",
+      component: Engagement,
       icon: OverviewIcon,
-    },
-    {
-      index: "2",
-      name: "Business Details",
-      component: BusinessInfo,
-      icon: BusinessIcon,
-    },
-    {
-      index: "3",
-      name: "Visa Project",
-      component: Projects,
-      icon: ProjectIcon,
-    },
+    }
   ];
   const [activeTab, setActiveTab] = useState("1");
   const toggle = (tab) => {
@@ -106,11 +110,15 @@ const UserDashBoard = (props) => {
           <SiderBarWrapper>
             <Nav tabs vertical>
               <UserID>
-                <p>MARN: 23663848490</p>
+                <p>Customer ID : 23663848490</p>
               </UserID>
               <ImgWrapper>
                 <img src={Avatar} alt="Avatar" />
               </ImgWrapper>
+              <Fullname>
+                <p>Full Name</p>
+              </Fullname>
+              <Username><p>Martin Dan P.</p></Username>
               {menuItems.map((item, i) => (
                 <NavWrapper>
                   <NavItem key={i}>
@@ -136,8 +144,8 @@ const UserDashBoard = (props) => {
                 {item.index === "1" ? (
                   <item.component {...props} />
                 ) : (
-                  <item.component {...props} />
-                )}
+                    <item.component {...props} />
+                  )}
               </TabPane>
             ))}
           </TabContent>
@@ -147,4 +155,4 @@ const UserDashBoard = (props) => {
   );
 };
 
-export default UserDashBoard;
+export default CustomerDashBoard;

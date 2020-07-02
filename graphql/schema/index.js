@@ -54,6 +54,7 @@ module.exports = buildSchema(`
                marn: Int
                rating: Int
                status: String
+               getuser:String
           }
 
         input ProjectDetail {

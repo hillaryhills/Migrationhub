@@ -13,15 +13,19 @@ export class index extends Component {
     this.state = {
       selectedValue: undefined,
       radioOptions: [
-        { value: "Education", text: "Education service" },
-        { value: "Migration", text: "Migration service" },
-        { value: "PayFees", text: "Payment Service" },
+        { value: "Study", text: "Study Plan" },
+        { value: "Migration", text: "Migration Plan" },
+        // { value: "PayFees", text: "Payment Service" },
       ],
     };
   }
 
   handleSelection(value) {
     this.setState({ selectedValue: value });
+    if (value == 'Migration') {
+      this.props.history.push(`/assessment`);
+
+    }
   }
   render() {
     return (
